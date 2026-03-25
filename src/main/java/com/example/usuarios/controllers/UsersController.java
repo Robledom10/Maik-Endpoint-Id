@@ -61,4 +61,36 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
+@PutMapping("/{id}")
+    public ResponseEntity<MessageResponseDto> updateUser(
+            @PathVariable Long id,
+            @RequestBody UsersRequestDto usersRequestDto) {
+
+        MessageResponseDto response = new MessageResponseDto();
+
+        try {
+            response = usersService.updateUser(id, usersRequestDto);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.setMessage("Hubo un error al actualizar el usuario");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    // 🆕 ✅ Eliminar usuario
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MessageResponseDto> deleteUser(@PathVariable Long id) {
+
+        MessageResponseDto response = new MessageResponseDto();
+
+        try {
+            response = usersService.deleteUser(id);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.setMessage("Hubo un error al eliminar el usuario");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
 }
