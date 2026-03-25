@@ -1,4 +1,4 @@
-package com.example.usuarios.services;
+2package com.example.usuarios.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,5 +64,33 @@ public class UsersService {
                 user.getId(),
                 user.getUsername(),
                 user.getEmail());
+    }
+    // 🆕 ✅ Actualizar usuario
+    public MessageResponseDto updateUser(Long id, UsersRequestDto request) {
+        MessageResponseDto response = new MessageResponseDto();
+
+        Users user = usersRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+
+        usersRepository.save(user);
+
+        response.setMessage("Usuario actualizado correctamente");
+        return response;
+    }
+
+    // 🆕 ✅ Eliminar usuario
+    public MessageResponseDto deleteUser(Long id) {
+        MessageResponseDto response = new MessageResponseDto();
+
+        Users user = usersRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        usersRepository.delete(user);
+
+        response.setMessage("Usuario eliminado correctamente");
+        return response;
     }
 }
